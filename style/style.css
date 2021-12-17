@@ -126,4 +126,13 @@ body {
   .selected {
     font-weight: bolder;
   }
+  #link-to-github{
+    text-align: center;
+    margin-top: 22px;
+    font-size: 11px;
+    opacity: 0.9;
+  }
+  #link-to-github a{
+    text-decoration: none;
+  }
   
