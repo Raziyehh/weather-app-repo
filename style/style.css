@@ -1,0 +1,129 @@
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #f8f9fa;
+    background-image: url("/images/our_neighborhood.svg");
+    background-repeat: no-repeat;
+    background-position: 0% 127%;
+    background-attachment: fixed;
+    background-size: 45vw 75vh;
+  }
+  div.border {
+    margin: 7vh 35vw 5vh;
+    width: 45vw;
+    min-width: 615px;
+    height: 85vh;
+    min-height: 500px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+  }
+  div.container-above {
+    height: 15vh;
+  }
+  
+  div.container-center {
+    height: 30vh;
+  }
+  div.container-bottom {
+    height: 35vh;
+  }
+  
+  .current-city-date {
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  
+  #search-input-button {
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+  }
+  #location-sign {
+    width: 18px;
+    height: 18px;
+    opacity: 0.55;
+  }
+  
+  .weather-icon,
+  .temprature {
+    height: 28vh;
+  }
+  .weather-icon img {
+    margin-top: 20%;
+    margin-left: 15%;
+    width: 100%;
+    opacity: 0.8;
+  }
+  div.temprature {
+    text-align: center;
+    margin-top: 10%;
+  }
+  span.degree {
+    font-size: 45px;
+    font-weight: 700;
+  }
+  .Celsius-unit a {
+    text-decoration: none;
+    color: #6d5dfc;
+    position: relative;
+    top: -30px;
+  }
+  
+  .fahrenheit-unit a {
+    text-decoration: none;
+    color: #6d5dfc;
+    position: relative;
+    top: -30px;
+  }
+  span.line {
+    position: relative;
+    top: -30px;
+  }
+  .temprature p {
+    font-size: 12px;
+    text-align: left;
+    font-weight: 400;
+  }
+  .search {
+    margin-right: 3%;
+    margin-left: 3%;
+  }
+  div.information-container .card {
+    font-weight: 400;
+    height: 28vh;
+    margin-top: 2%;
+    border-width: 2px;
+    margin-right: 6%;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+  }
+  div.card {
+    text-align: center;
+    border-color: #b0bec5;
+  }
+  .container-bottom {
+    margin: 2% 5%;
+  }
+  div.daily-forcast-container {
+    height: 35vh;
+    border-color: #b0bec5;
+    border-width: 2px;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+  }
+  .days-container {
+    height: 29vh;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    border-color: #9e9e9e;
+  }
+  .days-container img {
+    opacity: 0.9;
+    height: 47px;
+  }
+  .days-container a {
+    text-decoration: none;
+    color: #212529;
+  }
+  
+  .selected {
+    font-weight: bolder;
+  }
+  
