@@ -29,10 +29,16 @@ let degree = document.querySelector("#degree");
 let highTemp = document.querySelector("#high-temp");
 let lowTemp = document.querySelector("#low-temp");
 let realFeel = document.querySelector("#real-feel");
+let descriptionParagraph = document.querySelector("#description-paragraph");
+let wind = document.querySelector("#wind");
+let weatherHumidity = document.querySelector("#humidity");
+let weatherPressure = document.querySelector("#pressure");
 let searchButton = document.querySelector("#search-button");
 let locationButton = document.querySelector("#location-button");
 let fahrenheitIcon = document.querySelector("#fahrenheit a");
 let celsiusIcon = document.querySelector("#celsius a");
+let apiKey = "c021aa687b60c09e08ee49779a30f51c";
+let protocol = "https://api.openweathermap.org/data/2.5/weather";
 let city;
 
 //------------------------------------------------------------------------------
@@ -73,11 +79,6 @@ function updateUI(response) {
   let humidity = Math.round(response.data.main.humidity);
   let pressure = Math.round(response.data.main.pressure);
 
-  let descriptionParagraph = document.querySelector("#description-paragraph");
-  let wind = document.querySelector("#wind");
-  let weatherHumidity = document.querySelector("#humidity");
-  let weatherPressure = document.querySelector("#pressure");
-
   cityName.innerHTML = `${nameOfCities}`;
   searchInput.value = nameOfCities;
   degree.innerHTML = temp;
@@ -113,9 +114,7 @@ function changeInnerHtmlToFahrenheit(response) {
 //fetch from API
 //--------------------By city name
 function getTempByName(name) {
-  let apiKey = "c021aa687b60c09e08ee49779a30f51c";
   let units = "metric";
-  let protocol = "https://api.openweathermap.org/data/2.5/weather";
   let url = `${protocol}?q=${name}&appid=${apiKey}&units=${units}`;
   axios
     .get(url)
@@ -128,12 +127,9 @@ function getTempByName(name) {
 
 //--------------------By city location
 function getTempByPosition(position) {
-  let apiKey = "c021aa687b60c09e08ee49779a30f51c";
   let units = "metric";
-  let protocol = "https://api.openweathermap.org/data/2.5/weather";
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
-  console.log(latitude);
   let url = `${protocol}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
   axios.get(url).then(updateUI);
 }
@@ -141,9 +137,7 @@ function getTempByPosition(position) {
 //--------------------By Fahrenheit unit
 function changeUnitToFahrenheit(city) {
   city=  document.querySelector("#search-input").value;
-  let apiKey = "c021aa687b60c09e08ee49779a30f51c";
   let units = "imperial";
-  let protocol = "https://api.openweathermap.org/data/2.5/weather";
   let url = `${protocol}?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(url).then(changeInnerHtmlToFahrenheit);
 }
@@ -152,7 +146,7 @@ function changeUnitToFahrenheit(city) {
 //get city 
 //------------------- by search button and search input
 function searchCity() {
-  let city = document.querySelector("#search-input").value;
+  city=  document.querySelector("#search-input").value;
   city = city.trim();
   if (city === "") {
     alert("please enter a city");
@@ -171,7 +165,6 @@ function onKeyPress(event) {
 function getLocation() {
   navigator.geolocation.getCurrentPosition(getTempByPosition);
 }
-
 //-------------------------------------------------------------------------
 //run on load
 
@@ -186,5 +179,4 @@ if(!defaultCity)
   defaultCity= "Tehran"
 
 getTempByName(defaultCity);
-
 //------------------------------------------------------------------------------
