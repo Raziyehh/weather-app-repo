@@ -39,8 +39,7 @@ let fahrenheitIcon = document.querySelector("#fahrenheit a");
 let celsiusIcon = document.querySelector("#celsius a");
 let apiKey = "c021aa687b60c09e08ee49779a30f51c";
 let protocol = "https://api.openweathermap.org/data/2.5/weather";
-let city;
-
+let apiTampData= null;
 //------------------------------------------------------------------------------
 
 //set current date and time
@@ -69,12 +68,13 @@ function updateUI(response) {
   // update default city
   localStorage.city= response.data.name;
   //
+  apiTampData= response.data.main;
   let nameOfCities = response.data.name;
-  let temp = Math.round(response.data.main.temp);
+  let temp = Math.round(apiTampData.temp);
   let description = response.data.weather[0].description;
-  let tempMax = Math.round(response.data.main.temp_max);
-  let tempMin = Math.round(response.data.main.temp_min);
-  let feelsLike = Math.round(response.data.main.feels_like);
+  let tempMax = Math.round(apiTampData.temp_max);
+  let tempMin = Math.round(apiTampData.temp_min);
+  let feelsLike = Math.round(apiTampData.feels_like);
   let windSpeed = response.data.wind.speed;
   let humidity = Math.round(response.data.main.humidity);
   let pressure = Math.round(response.data.main.pressure);
@@ -90,24 +90,24 @@ function updateUI(response) {
   weatherHumidity.innerHTML = humidity;
   weatherPressure.innerHTML = pressure;
 
-  celsiusIcon.classList.add("selected");
-  fahrenheitIcon.classList.remove("selected");
+  celsiusIcon.classList.remove("selected");
+  fahrenheitIcon.classList.add("selected");
 }
 //------------update UI To Fahrenheit
-function changeInnerHtmlToFahrenheit(response) {
+function changeInnerHtmlToFahrenheit() {
    
-  let temp = Math.round(response.data.main.temp);
-  let tempMax = Math.round(response.data.main.temp_max);
-  let tempMin = Math.round(response.data.main.temp_min);
-  let feelsLike = Math.round(response.data.main.feels_like);
+  let fTemp = Math.round(apiTampData.temp*9/5+32);
+  let fTempMax = Math.round(apiTampData.temp_max*9/5+32);
+  let fTempMin = Math.round(apiTampData.temp_min*9/5+32);
+  let fFeelsLike = Math.round(apiTampData.feels_like*9/5+32);
 
-  degree.innerHTML = temp;
-  highTemp.innerHTML = tempMax;
-  lowTemp.innerHTML = tempMin;
-  realFeel.innerHTML = feelsLike;
+  degree.innerHTML = fTemp;
+  highTemp.innerHTML = fTempMax;
+  lowTemp.innerHTML = fTempMin;
+  realFeel.innerHTML = fFeelsLike;
 
-  fahrenheitIcon.classList.add("selected");
-  celsiusIcon.classList.remove("selected");
+  fahrenheitIcon.classList.remove("selected");
+  celsiusIcon.classList.add("selected");
 }
 //------------------------------------------------------------------------------
 
@@ -133,20 +133,11 @@ function getTempByPosition(position) {
   let url = `${protocol}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
   axios.get(url).then(updateUI);
 }
-
-//--------------------By Fahrenheit unit
-function changeUnitToFahrenheit(city) {
-  city=  document.querySelector("#search-input").value;
-  let units = "imperial";
-  let url = `${protocol}?q=${city}&appid=${apiKey}&units=${units}`;
-  axios.get(url).then(changeInnerHtmlToFahrenheit);
-}
 //-------------------------------------------------------------------------------
-
 //get city 
 //------------------- by search button and search input
 function searchCity() {
-  city=  document.querySelector("#search-input").value;
+  let city=  document.querySelector("#search-input").value;
   city = city.trim();
   if (city === "") {
     alert("please enter a city");
@@ -169,7 +160,7 @@ function getLocation() {
 //run on load
 
 locationButton.addEventListener("click", getLocation);
-fahrenheitIcon.addEventListener("click",  changeUnitToFahrenheit);
+fahrenheitIcon.addEventListener("click",  changeInnerHtmlToFahrenheit);
 celsiusIcon.addEventListener("click", searchCity);
 searchInput.addEventListener("keydown", onKeyPress);
 searchButton.addEventListener("click", searchCity);
