@@ -25,6 +25,7 @@ let date = document.querySelector("#date");
 
 let cityName = document.querySelector("#city-name");
 let searchInput = document.querySelector("#search-input");
+let weatherIcon =document.querySelector("#weather-icon");
 let degree = document.querySelector("#degree");
 let highTemp = document.querySelector("#high-temp");
 let lowTemp = document.querySelector("#low-temp");
@@ -39,7 +40,7 @@ let fahrenheitIcon = document.querySelector("#fahrenheit a");
 let celsiusIcon = document.querySelector("#celsius a");
 let apiKey = "c021aa687b60c09e08ee49779a30f51c";
 let protocol = "https://api.openweathermap.org/data/2.5/weather";
-let apiTampData= null;
+let apiTempData= null;
 //------------------------------------------------------------------------------
 
 //set current date and time
@@ -68,19 +69,22 @@ function updateUI(response) {
   // update default city
   localStorage.city= response.data.name;
   //
-  apiTampData= response.data.main;
+  apiTempData= response.data.main;
   let nameOfCities = response.data.name;
-  let temp = Math.round(apiTampData.temp);
+  let apiWeatherIcon=response.data.weather[0].icon
+  let temp = Math.round(apiTempData.temp);
   let description = response.data.weather[0].description;
-  let tempMax = Math.round(apiTampData.temp_max);
-  let tempMin = Math.round(apiTampData.temp_min);
-  let feelsLike = Math.round(apiTampData.feels_like);
+  let tempMax = Math.round(apiTempData.temp_max);
+  let tempMin = Math.round(apiTempData.temp_min);
+  let feelsLike = Math.round(apiTempData.feels_like);
   let windSpeed = response.data.wind.speed;
   let humidity = Math.round(response.data.main.humidity);
   let pressure = Math.round(response.data.main.pressure);
 
   cityName.innerHTML = `${nameOfCities}`;
   searchInput.value = nameOfCities;
+  weatherIcon.setAttribute("src",`http://openweathermap.org/img/wn/${apiWeatherIcon}@2x.png`);
+  weatherIcon.setAttribute("alt",description);
   degree.innerHTML = temp;
   descriptionParagraph.innerHTML = description;
   highTemp.innerHTML =tempMax;
@@ -96,10 +100,10 @@ function updateUI(response) {
 //------------update UI To Fahrenheit
 function changeInnerHtmlToFahrenheit() {
    
-  let fTemp = Math.round(apiTampData.temp*9/5+32);
-  let fTempMax = Math.round(apiTampData.temp_max*9/5+32);
-  let fTempMin = Math.round(apiTampData.temp_min*9/5+32);
-  let fFeelsLike = Math.round(apiTampData.feels_like*9/5+32);
+  let fTemp = Math.round(apiTempData.temp*9/5+32);
+  let fTempMax = Math.round(apiTempData.temp_max*9/5+32);
+  let fTempMin = Math.round(apiTempData.temp_min*9/5+32);
+  let fFeelsLike = Math.round(apiTempData.feels_like*9/5+32);
 
   degree.innerHTML = fTemp;
   highTemp.innerHTML = fTempMax;

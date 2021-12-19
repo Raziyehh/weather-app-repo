@@ -1,6 +1,6 @@
 body {
     font-family: "Roboto", sans-serif;
-    background-color: #f8f9fa;
+    background-color: #fff;
     background-image: url("/images/our_neighborhood.svg");
     background-repeat: no-repeat;
     background-position: 0% 127%;
@@ -31,6 +31,7 @@ body {
     font-size: 20px;
     font-weight: 600;
     opacity: 0.9;
+    line-height: 1.6;
   }
   
   #search-input-button {
@@ -41,20 +42,23 @@ body {
     height: 18px;
     opacity: 0.55;
   }
-  
-  .weather-icon,
-  .temprature {
-    height: 28vh;
+  .search {
+    margin-right: 3%;
+    margin-left: 3%;
   }
+
   .weather-icon img {
+    margin-left: 5%;
     margin-top: 20%;
-    margin-left: 15%;
     width: 100%;
-    opacity: 0.8;
+    width: 130px;
+    height: 130px;
   }
+  
   div.temprature {
     text-align: center;
-    margin-top: 10%;
+    margin-top: 23%;
+    margin-left: -40%;
   }
   span.degree {
     font-size: 45px;
@@ -77,15 +81,16 @@ body {
     position: relative;
     top: -30px;
   }
-  .temprature p {
-    font-size: 12px;
-    text-align: left;
-    font-weight: 400;
+  
+  #description-paragraph {
+    margin-left: 9%;
+    margin-top: -10%;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0.95;
   }
-  .search {
-    margin-right: 3%;
-    margin-left: 3%;
-  }
+
   div.information-container .card {
     font-weight: 400;
     height: 28vh;
