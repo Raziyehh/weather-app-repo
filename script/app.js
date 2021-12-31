@@ -39,8 +39,9 @@ let locationButton = document.querySelector("#location-button");
 let fahrenheitIcon = document.querySelector("#fahrenheit a");
 let celsiusIcon = document.querySelector("#celsius a");
 let apiKey = "c021aa687b60c09e08ee49779a30f51c";
-let protocol = "https://api.openweathermap.org/data/2.5/weather";
+let protocol = "https://api.openweathermap.org/data/2.5/";
 let apiTempData= null;
+let cityCoordination= null;
 //------------------------------------------------------------------------------
 
 //set current date and time
@@ -70,6 +71,7 @@ function updateUI(response) {
   localStorage.city= response.data.name;
   //
   apiTempData= response.data.main;
+  cityCoordination= response.data.coord;
   let nameOfCities = response.data.name;
   let apiWeatherIcon=response.data.weather[0].icon
   let temp = Math.round(apiTempData.temp);
@@ -87,15 +89,17 @@ function updateUI(response) {
   weatherIcon.setAttribute("alt",description);
   degree.innerHTML = temp;
   descriptionParagraph.innerHTML = description;
-  highTemp.innerHTML =tempMax;
-  lowTemp.innerHTML = tempMin;
-  realFeel.innerHTML = feelsLike;
+  highTemp.innerHTML =`${tempMax}°`;
+  lowTemp.innerHTML = `${tempMin}°`;
+  realFeel.innerHTML = `${feelsLike}°`;
   wind.innerHTML = `${windSpeed}km/h`;
   weatherHumidity.innerHTML = humidity;
   weatherPressure.innerHTML = pressure;
 
   celsiusIcon.classList.remove("selected");
   fahrenheitIcon.classList.add("selected");
+
+  getForecast(cityCoordination,"metric");
 }
 //------------update UI To Fahrenheit
 function changeInnerHtmlToFahrenheit() {
@@ -106,12 +110,13 @@ function changeInnerHtmlToFahrenheit() {
   let fFeelsLike = Math.round(apiTempData.feels_like*9/5+32);
 
   degree.innerHTML = fTemp;
-  highTemp.innerHTML = fTempMax;
-  lowTemp.innerHTML = fTempMin;
-  realFeel.innerHTML = fFeelsLike;
+  highTemp.innerHTML = `${fTempMax}°`;
+  lowTemp.innerHTML = `${fTempMin}°`;
+  realFeel.innerHTML = `${fFeelsLike}°`;
 
   fahrenheitIcon.classList.remove("selected");
   celsiusIcon.classList.add("selected");
+  getForecast(cityCoordination,"imperial");
 }
 //------------------------------------------------------------------------------
 
@@ -119,7 +124,7 @@ function changeInnerHtmlToFahrenheit() {
 //--------------------By city name
 function getTempByName(name) {
   let units = "metric";
-  let url = `${protocol}?q=${name}&appid=${apiKey}&units=${units}`;
+  let url = `${protocol}weather?q=${name}&appid=${apiKey}&units=${units}`;
   axios
     .get(url)
     .then(updateUI)
@@ -134,7 +139,7 @@ function getTempByPosition(position) {
   let units = "metric";
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
-  let url = `${protocol}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+  let url = `${protocol}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
   axios.get(url).then(updateUI);
 }
 //-------------------------------------------------------------------------------
@@ -175,3 +180,49 @@ if(!defaultCity)
 
 getTempByName(defaultCity);
 //------------------------------------------------------------------------------
+
+
+//display the forecast
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+ 
+}
+
+
+function displayForecast(response){
+  let forecast= response.data.daily;
+  let forecastElement= document.querySelector("#forecast");
+  let forecastHTML=`<div class="row m-3">`;
+
+  forecast.forEach(function(forecastDay, index){
+    const month= new Date(forecastDay.dt * 1000).getMonth() +1;
+    const day = new Date(forecastDay.dt * 1000).getDate();
+   if(index>0 && index<5){
+     forecastHTML=
+     forecastHTML+ ` <div class="col days-container m-1 card">
+     
+       <div id="forecast-day">${formatDay(forecastDay.dt)}</div>
+       <div id="forecast-date">${`${month}/${day} `}</div>
+       <div id="forecast-icon">
+       <img src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt=""/>
+       </div>
+       <div  id="forecast-high-temp">${Math.round(forecastDay.temp.max)}°</div>
+       <div  id="forecast-low-temp">${Math.round(forecastDay.temp.min)}°</div>
+ </div>`;
+   }
+ });
+ forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+
+
+function getForecast(coordinates,units) {
+  let apiUrl=`${protocol}onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(displayForecast);
+}
