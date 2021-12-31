@@ -202,7 +202,7 @@ function displayForecast(response){
   forecast.forEach(function(forecastDay, index){
     const month= new Date(forecastDay.dt * 1000).getMonth() +1;
     const day = new Date(forecastDay.dt * 1000).getDate();
-   if(index>0 && index<5){
+   if(index>0 && index<6){
      forecastHTML=
      forecastHTML+ ` <div class="col days-container m-1 card">
      
