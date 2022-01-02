@@ -20,9 +20,8 @@ let months = [
 
 let currentMonth = months[dateTime.getMonth()];
 let daysOfMonth = dateTime.getDate();
+
 let date = document.querySelector("#date");
-
-
 let cityName = document.querySelector("#city-name");
 let searchInput = document.querySelector("#search-input");
 let weatherIcon =document.querySelector("#weather-icon");
@@ -38,6 +37,7 @@ let searchButton = document.querySelector("#search-button");
 let locationButton = document.querySelector("#location-button");
 let fahrenheitIcon = document.querySelector("#fahrenheit a");
 let celsiusIcon = document.querySelector("#celsius a");
+
 let apiKey = "c021aa687b60c09e08ee49779a30f51c";
 let protocol = "https://api.openweathermap.org/data/2.5/";
 let apiTempData= null;
@@ -72,6 +72,7 @@ function updateUI(response) {
   //
   apiTempData= response.data.main;
   cityCoordination= response.data.coord;
+
   let nameOfCities = response.data.name;
   let apiWeatherIcon=response.data.weather[0].icon
   let temp = Math.round(apiTempData.temp);
@@ -82,7 +83,7 @@ function updateUI(response) {
   let windSpeed = response.data.wind.speed;
   let humidity = Math.round(response.data.main.humidity);
   let pressure = Math.round(response.data.main.pressure);
-
+  
   cityName.innerHTML = `${nameOfCities}`;
   searchInput.value = nameOfCities;
   weatherIcon.setAttribute("src",`http://openweathermap.org/img/wn/${apiWeatherIcon}@2x.png`);
@@ -93,7 +94,7 @@ function updateUI(response) {
   lowTemp.innerHTML = `${tempMin}°`;
   realFeel.innerHTML = `${feelsLike}°`;
   wind.innerHTML = `${windSpeed}km/h`;
-  weatherHumidity.innerHTML = humidity;
+  weatherHumidity.innerHTML = `${humidity}%`;
   weatherPressure.innerHTML = pressure;
 
   celsiusIcon.classList.remove("selected");
@@ -190,9 +191,7 @@ function formatDay(timestamp) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return days[day];
- 
 }
-
 
 function displayForecast(response){
   let forecast= response.data.daily;
@@ -200,9 +199,9 @@ function displayForecast(response){
   let forecastHTML=`<div class="row m-3">`;
 
   forecast.forEach(function(forecastDay, index){
-    const month= new Date(forecastDay.dt * 1000).getMonth() +1;
-    const day = new Date(forecastDay.dt * 1000).getDate();
-   if(index>0 && index<6){
+    let month= new Date(forecastDay.dt * 1000).getMonth() +1;
+    let day = new Date(forecastDay.dt * 1000).getDate();
+    if(index>0 && index<6){
      forecastHTML=
      forecastHTML+ ` <div class="col days-container m-1 card">
      
@@ -220,9 +219,10 @@ function displayForecast(response){
   forecastElement.innerHTML = forecastHTML;
 }
 
-
-
 function getForecast(coordinates,units) {
   let apiUrl=`${protocol}onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayForecast);
 }
+//----------------------------------------------------
+//change the video play speed
+document.querySelector('video').playbackRate = 0.5;
