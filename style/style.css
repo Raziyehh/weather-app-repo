@@ -1,12 +1,11 @@
 body {
     font-family: "Roboto", sans-serif;
-    background-color: #fff;
   }
   .container{
     z-index: 10;
   }
   #app-container{
-    background: rgba(239, 239, 247, 0.5);
+    background: rgba(255, 255, 255, 0.5); 
   }
   div.border {
     margin: 7vh auto 5vh;
@@ -103,14 +102,14 @@ body {
   }
   div.card {
     text-align: center;
-    border-color: #b0bec5;
+    border-color: #ada8a8;
   }
   .container-bottom {
     margin: 2% 5%;
   }
   div.daily-forecast-container {
     height: 35vh;
-    border-color: #b0bec5;
+    border-color: #ada8a8;
     border-width: 2px;
     box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
     background-color: inherit;
@@ -131,21 +130,22 @@ body {
     margin-bottom: 4px;
 }
   #forecast-icon{
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
   #forecast-high-temp{
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
   .days-container img {
     height: 60px;
+    
   }
   .selected {
     font-weight: bolder;
   }
   #link-to-github{
     text-align: center;
-    margin-top: 22px;
-    font-size: 11px;
+    margin-top: 24px;
+    font-size: 12px;
     opacity: 0.9;
   }
   #link-to-github a{
@@ -159,5 +159,4 @@ body {
     z-index: -1;
     min-width: 100%;
     min-height: 100%;
-
   }

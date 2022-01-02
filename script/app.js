@@ -119,72 +119,7 @@ function changeInnerHtmlToFahrenheit() {
   celsiusIcon.classList.add("selected");
   getForecast(cityCoordination,"imperial");
 }
-//------------------------------------------------------------------------------
-
-//fetch from API
-//--------------------By city name
-function getTempByName(name) {
-  let units = "metric";
-  let url = `${protocol}weather?q=${name}&appid=${apiKey}&units=${units}`;
-  axios
-    .get(url)
-    .then(updateUI)
-    .catch((error) => {
-      searchInput.value = "";
-      alert("City not found");
-    });
-}
-
-//--------------------By city location
-function getTempByPosition(position) {
-  let units = "metric";
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
-  let url = `${protocol}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
-  axios.get(url).then(updateUI);
-}
-//-------------------------------------------------------------------------------
-//get city 
-//------------------- by search button and search input
-function searchCity() {
-  let city=  document.querySelector("#search-input").value;
-  city = city.trim();
-  if (city === "") {
-    alert("please enter a city");
-    cityName.innerHTML = defaultCity;
-  } else {
-    getTempByName(city);
-  }
-}
-
-function onKeyPress(event) {
-  if (event.key === "Enter") searchCity();
-}
-
-//------------------- by lacation button
-
-function getLocation() {
-  navigator.geolocation.getCurrentPosition(getTempByPosition);
-}
-//-------------------------------------------------------------------------
-//run on load
-
-locationButton.addEventListener("click", getLocation);
-fahrenheitIcon.addEventListener("click",  changeInnerHtmlToFahrenheit);
-celsiusIcon.addEventListener("click", searchCity);
-searchInput.addEventListener("keydown", onKeyPress);
-searchButton.addEventListener("click", searchCity);
-// default city is tehran
-let defaultCity= localStorage.city;
-if(!defaultCity)
-  defaultCity= "Tehran"
-
-getTempByName(defaultCity);
-//------------------------------------------------------------------------------
-
-
-//display the forecast
-
+//-------------------display the forecast
 function formatDay(timestamp) {
   let date = new Date(timestamp * 1000);
   let day = date.getDay();
@@ -218,11 +153,76 @@ function displayForecast(response){
  forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
+//------------------------------------------------------------------------------
 
+//fetch from API
+//--------------------By city name
+function getTempByName(name) {
+  let units = "metric";
+  let url = `${protocol}weather?q=${name}&appid=${apiKey}&units=${units}`;
+  axios
+    .get(url)
+    .then(updateUI)
+    .catch((error) => {
+      searchInput.value = "";
+      alert("City not found");
+    });
+}
+
+//--------------------By city location
+function getTempByPosition(position) {
+  let units = "metric";
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
+  let url = `${protocol}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+  axios.get(url).then(updateUI);
+}
+
+//--------------------get the forecast
 function getForecast(coordinates,units) {
   let apiUrl=`${protocol}onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayForecast);
 }
-//----------------------------------------------------
+//-------------------------------------------------------------------------------
+
+//get city 
+//------------------- by search button and search input
+function searchCity() {
+  let city=  document.querySelector("#search-input").value;
+  city = city.trim();
+  if (city === "") {
+    alert("please enter a city");
+    cityName.innerHTML = defaultCity;
+  } else {
+    getTempByName(city);
+  }
+}
+
+function onKeyPress(event) {
+  if (event.key === "Enter") searchCity();
+}
+
+//------------------- by lacation button
+
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(getTempByPosition);
+}
+//-------------------------------------------------------------------------
+
+//run on load
+
+locationButton.addEventListener("click", getLocation);
+fahrenheitIcon.addEventListener("click",  changeInnerHtmlToFahrenheit);
+celsiusIcon.addEventListener("click", searchCity);
+searchInput.addEventListener("keydown", onKeyPress);
+searchButton.addEventListener("click", searchCity);
+// default city is tehran
+let defaultCity= localStorage.city;
+if(!defaultCity)
+  defaultCity= "Tehran"
+
+getTempByName(defaultCity);
+
 //change the video play speed
-document.querySelector('video').playbackRate = 0.5;
+document.querySelector('video').playbackRate = 0.3;
+//------------------------------------------------------------------------------
